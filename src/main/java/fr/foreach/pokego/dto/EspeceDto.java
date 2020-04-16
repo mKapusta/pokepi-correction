@@ -10,6 +10,7 @@ public class EspeceDto {
     private TypeDto typeSecondaire;
     private EspeceDto evolutionDe;
     private Integer pokedex;
+    private String sprite;
 
     public Integer getId() {
         return id;
@@ -49,6 +50,14 @@ public class EspeceDto {
 
     public void setEvolutionDe(EspeceDto evolutionDe) {
         this.evolutionDe = evolutionDe;
+    }
+
+    public String getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(String sprite) {
+        this.sprite = sprite;
     }
 
     public Integer getPokedex() {

@@ -1,12 +1,13 @@
 package fr.foreach.pokego.service;
 
 import fr.foreach.pokego.dto.EspeceDto;
+import fr.foreach.pokego.dto.EspeceSearchCriteria;
 
 import java.util.List;
 
 public interface EspeceService {
 
-    List<EspeceDto> getAllEspeces();
+    List<EspeceDto> getAllEspeces(EspeceSearchCriteria searchEspeceCriteria);
 
     EspeceDto getEspeceById(Integer id);
 

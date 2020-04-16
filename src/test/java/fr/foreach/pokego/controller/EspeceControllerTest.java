@@ -1,6 +1,7 @@
 package fr.foreach.pokego.controller;
 
 import fr.foreach.pokego.dto.EspeceDto;
+import fr.foreach.pokego.dto.EspeceSearchCriteria;
 import fr.foreach.pokego.service.EspeceService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,9 +26,10 @@ class EspeceControllerTest {
     @Test
     void getAllEspeces_returnsListEspeceDto() {
         EspeceDto EspeceDto = new EspeceDto();
-        when(especeService.getAllEspeces()).thenReturn(List.of(EspeceDto));
-        assertThat(especeController.getAllEspeces()).isEqualTo(List.of(EspeceDto));
-        verify(especeService).getAllEspeces();
+        EspeceSearchCriteria especeSearchCriteria = new EspeceSearchCriteria();
+        when(especeService.getAllEspeces(especeSearchCriteria)).thenReturn(List.of(EspeceDto));
+        assertThat(especeController.getAllEspeces(especeSearchCriteria)).isEqualTo(List.of(EspeceDto));
+        verify(especeService).getAllEspeces(especeSearchCriteria);
     }
 
     @Test

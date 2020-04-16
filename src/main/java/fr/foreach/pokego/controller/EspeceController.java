@@ -1,6 +1,7 @@
 package fr.foreach.pokego.controller;
 
 import fr.foreach.pokego.dto.EspeceDto;
+import fr.foreach.pokego.dto.EspeceSearchCriteria;
 import fr.foreach.pokego.service.EspeceService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,8 @@ public class EspeceController {
     }
 
     @GetMapping
-    public List<EspeceDto> getAllEspeces() {
-        return especeService.getAllEspeces();
+    public List<EspeceDto> getAllEspeces(EspeceSearchCriteria searchEspeceCriteria) {
+        return especeService.getAllEspeces(searchEspeceCriteria);
     }
 
     @GetMapping("/{id}")
