@@ -11,6 +11,8 @@ public interface EspeceService {
 
     EspeceDto getEspeceById(Integer id);
 
+    EspeceDto getEspeceJdbcById(Integer id);
+
     EspeceDto createEspece(EspeceDto EspeceDto);
 
     EspeceDto editEspece(EspeceDto EspeceDto);

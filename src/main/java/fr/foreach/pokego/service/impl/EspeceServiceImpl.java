@@ -5,6 +5,7 @@ import fr.foreach.pokego.dto.EspeceSearchCriteria;
 import fr.foreach.pokego.entity.Espece;
 import fr.foreach.pokego.exception.EspeceNotFoundException;
 import fr.foreach.pokego.exception.WrongEspeceException;
+import fr.foreach.pokego.respository.EspeceJdbcRepository;
 import fr.foreach.pokego.respository.EspeceJpaRepository;
 import fr.foreach.pokego.respository.PokeApiRepository;
 import fr.foreach.pokego.service.EspeceService;
@@ -18,10 +19,12 @@ import java.util.stream.StreamSupport;
 public class EspeceServiceImpl implements EspeceService {
 
     private EspeceJpaRepository especeJpaRepository;
+    private EspeceJdbcRepository especeJdbcRepository;
     private PokeApiRepository pokeApiRepository;
 
-    public EspeceServiceImpl(EspeceJpaRepository especeJpaRepository, PokeApiRepository pokeApiRepository) {
+    public EspeceServiceImpl(EspeceJpaRepository especeJpaRepository, EspeceJdbcRepository especeJdbcRepository, PokeApiRepository pokeApiRepository) {
         this.especeJpaRepository = especeJpaRepository;
+        this.especeJdbcRepository = especeJdbcRepository;
         this.pokeApiRepository = pokeApiRepository;
     }
 
@@ -47,6 +50,12 @@ public class EspeceServiceImpl implements EspeceService {
         EspeceDto especeDto = new EspeceDto(especeJpaRepository.findById(id).orElseThrow(EspeceNotFoundException::new));
         especeDto.setSprite(pokeApiRepository.getEspeceSprite(especeDto.getPokedex()));
         return especeDto;
+    }
+
+
+    @Override
+    public EspeceDto getEspeceJdbcById(Integer id) {
+        return new EspeceDto(especeJdbcRepository.getByIdWithTypes(id));
     }
 
     @Override

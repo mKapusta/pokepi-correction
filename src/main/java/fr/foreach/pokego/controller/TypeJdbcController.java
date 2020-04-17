@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/types")
-public class TypeController {
+@RequestMapping("/typesjdbc")
+public class TypeJdbcController {
 
     private TypeService typeService;
 
-    public TypeController(@Qualifier("TypeService") TypeService typeService) {
+    public TypeJdbcController(@Qualifier(value = "TypeJdbcService") TypeService typeService) {
         this.typeService = typeService;
     }
 

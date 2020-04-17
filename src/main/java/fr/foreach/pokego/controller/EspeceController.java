@@ -27,6 +27,11 @@ public class EspeceController {
         return especeService.getEspeceById(id);
     }
 
+    @GetMapping("/jdbc/{id}")
+    public EspeceDto getByIdJdbc(@PathVariable Integer id) {
+        return especeService.getEspeceJdbcById(id);
+    }
+
     @PostMapping
     public EspeceDto createEspece(@RequestBody EspeceDto especeDto) {
         return especeService.createEspece(especeDto);
