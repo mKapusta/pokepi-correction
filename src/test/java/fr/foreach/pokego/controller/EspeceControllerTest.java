@@ -42,18 +42,18 @@ class EspeceControllerTest {
 
     @Test
     void createEspece_returnsEspeceDto() {
-        EspeceDto EspeceDto = new EspeceDto();
-        when(especeService.createEspece(EspeceDto)).thenReturn(EspeceDto);
-        assertThat(especeController.createEspece(EspeceDto)).isEqualTo(EspeceDto);
-        verify(especeService).createEspece(EspeceDto);
+        EspeceDto especeDto = new EspeceDto();
+        when(especeService.createEspece(especeDto)).thenReturn(especeDto);
+        assertThat(especeController.createEspece(especeDto)).isEqualTo(especeDto);
+        verify(especeService).createEspece(especeDto);
     }
 
     @Test
     void editEspece_returnsEspeceDto() {
-        EspeceDto EspeceDto = new EspeceDto();
-        when(especeService.editEspece(EspeceDto)).thenReturn(EspeceDto);
-        assertThat(especeController.editEspece(EspeceDto)).isEqualTo(EspeceDto);
-        verify(especeService).editEspece(EspeceDto);
+        EspeceDto especeDto = new EspeceDto();
+        when(especeService.editEspece(especeDto)).thenReturn(especeDto);
+        assertThat(especeController.editEspece(1, especeDto)).isEqualTo(especeDto);
+        verify(especeService).editEspece(especeDto);
     }
 
     @Test

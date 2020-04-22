@@ -50,7 +50,7 @@ class TypeControllerTest {
     void editType_returnsTypeDto() {
         TypeDto typeDto = new TypeDto();
         when(typeService.editType(typeDto)).thenReturn(typeDto);
-        assertThat(typeController.editType(typeDto)).isEqualTo(typeDto);
+        assertThat(typeController.editType(1, typeDto)).isEqualTo(typeDto);
         verify(typeService).editType(typeDto);
     }
 }

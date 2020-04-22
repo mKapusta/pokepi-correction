@@ -38,7 +38,8 @@ public class EspeceController {
     }
 
     @PutMapping("/{id}")
-    public EspeceDto editEspece(@RequestBody EspeceDto especeDto) {
+    public EspeceDto editEspece(@PathVariable Integer id, @RequestBody EspeceDto especeDto) {
+        especeDto.setId(id);
         return especeService.editEspece(especeDto);
     }
 

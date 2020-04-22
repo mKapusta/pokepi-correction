@@ -41,4 +41,9 @@ public class AttaqueServiceImpl implements AttaqueService {
         return new AttaqueDto(attaqueJpaRepository.save(attaqueDto.toAttaque()));
     }
 
+    @Override
+    public void deleteAttaque(Integer id) {
+        attaqueJpaRepository.deleteById(id);
+    }
+
 }

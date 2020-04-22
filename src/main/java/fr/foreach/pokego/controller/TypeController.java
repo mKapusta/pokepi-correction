@@ -33,7 +33,8 @@ public class TypeController {
     }
 
     @PutMapping("/{id}")
-    public TypeDto editType(@RequestBody TypeDto typeDto) {
+    public TypeDto editType(@PathVariable Integer id, @RequestBody TypeDto typeDto) {
+        typeDto.setId(id);
         return typeService.editType(typeDto);
     }
 }

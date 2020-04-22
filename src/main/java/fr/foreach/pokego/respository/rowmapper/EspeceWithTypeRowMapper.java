@@ -19,9 +19,17 @@ public class EspeceWithTypeRowMapper implements RowMapper<Espece> {
         espece.setTypePrincipal(new Type());
         espece.getTypePrincipal().setId(resultSet.getInt("TYPE_PRINCIPAL_ID"));
         espece.getTypePrincipal().setNom(resultSet.getString("TYPE_PRINCIPAL_NOM"));
-        espece.setTypeSecondaire(new Type());
-        espece.getTypeSecondaire().setId(resultSet.getInt("TYPE_SECONDAIRE_ID"));
-        espece.getTypeSecondaire().setNom(resultSet.getString("TYPE_SECONDAIRE_NOM"));
+        if (resultSet.getInt("TYPE_SECONDAIRE_ID") != 0) {
+            espece.setTypeSecondaire(new Type());
+            espece.getTypeSecondaire().setId(resultSet.getInt("TYPE_SECONDAIRE_ID"));
+            espece.getTypeSecondaire().setNom(resultSet.getString("TYPE_SECONDAIRE_NOM"));
+        }
+        if (resultSet.getInt("BASE_ID") != 0) {
+            espece.setEvolutionDe(new Espece());
+            espece.getEvolutionDe().setId(resultSet.getInt("BASE_ID"));
+            espece.getEvolutionDe().setNom(resultSet.getString("BASE_NOM"));
+            espece.getEvolutionDe().setPokedex(resultSet.getInt("BASE_POKEDEX"));
+        }
         return espece;
     }
 }

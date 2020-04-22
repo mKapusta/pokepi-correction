@@ -12,4 +12,6 @@ public interface AttaqueService {
     AttaqueDto createAttaque(AttaqueDto attaqueDto);
 
     AttaqueDto editAttaque(AttaqueDto attaqueDto);
+
+    void deleteAttaque(Integer id);
 }
