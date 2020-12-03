@@ -20,8 +20,14 @@ public class AttaqueServiceImpl implements AttaqueService {
     }
 
     @Override
-    public List<AttaqueDto> getAllAttaques() {
+    public List<AttaqueDto> getAllAttaques(String type) {
         return StreamSupport.stream(attaqueJpaRepository.findAll().spliterator(), false)
+                .filter(attaque -> {
+                    if (type != null) {
+                        return attaque.getType().getNom().equals(type);
+                    }
+                    return true;
+                })
                 .map(AttaqueDto::new)
                 .collect(Collectors.toList());
     }
