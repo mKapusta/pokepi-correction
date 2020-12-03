@@ -1,11 +1,16 @@
 package fr.foreach.pokego.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import fr.foreach.pokego.entity.Dresseur;
+
+import java.util.List;
 
 public class DresseurDto {
 
     private Integer id;
     private String nom;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<PokemonInTeamDto> equipe;
 
     public DresseurDto() {
     }
@@ -26,9 +31,23 @@ public class DresseurDto {
         this.nom = nom;
     }
 
+    public List<PokemonInTeamDto> getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(List<PokemonInTeamDto> equipe) {
+        this.equipe = equipe;
+    }
+
     public DresseurDto(Dresseur dresseur) {
         id = dresseur.getId();
         nom = dresseur.getNom();
+    }
+
+    public DresseurDto(Integer id, String nom, List<PokemonInTeamDto> equipe) {
+        this.id = id;
+        this.nom = nom;
+        this.equipe = equipe;
     }
 
     public Dresseur toDresseur() {

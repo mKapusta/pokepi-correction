@@ -17,8 +17,8 @@ public class AttaqueController {
     }
 
     @GetMapping
-    public List<AttaqueDto> getAllAttaques() {
-        return attaqueService.getAllAttaques();
+    public List<AttaqueDto> getAllAttaques(@RequestParam(value = "type", required = false) String type) {
+        return attaqueService.getAllAttaques(type);
     }
 
     @GetMapping("/{id}")

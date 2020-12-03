@@ -4,6 +4,7 @@ import fr.foreach.pokego.dto.DresseurDto;
 import fr.foreach.pokego.exception.DresseurNotFoundException;
 import fr.foreach.pokego.respository.DresseurJpaRepository;
 import fr.foreach.pokego.service.DresseurService;
+import fr.foreach.pokego.service.PokemonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.stream.StreamSupport;
 public class DresseurServiceImpl implements DresseurService {
 
     private DresseurJpaRepository dresseurJpaRepository;
+    private PokemonService pokemonService;
 
-    public DresseurServiceImpl(DresseurJpaRepository dresseurJpaRepository) {
+    public DresseurServiceImpl(DresseurJpaRepository dresseurJpaRepository, PokemonService pokemonService) {
         this.dresseurJpaRepository = dresseurJpaRepository;
+        this.pokemonService = pokemonService;
     }
 
     @Override
@@ -28,7 +31,9 @@ public class DresseurServiceImpl implements DresseurService {
 
     @Override
     public DresseurDto getDresseurById(Integer id) {
-        return new DresseurDto(dresseurJpaRepository.findById(id).orElseThrow(DresseurNotFoundException::new));
+        DresseurDto dresseur = new DresseurDto(dresseurJpaRepository.findById(id).orElseThrow(DresseurNotFoundException::new));
+        dresseur.setEquipe(pokemonService.getPokemonByDresseurId(dresseur.getId()));
+        return dresseur;
     }
 
     @Override
