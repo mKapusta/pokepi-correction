@@ -1,6 +1,7 @@
 package fr.foreach.pokego.service.impl;
 
 import fr.foreach.pokego.dto.PokemonDto;
+import fr.foreach.pokego.dto.PokemonInTeamDto;
 import fr.foreach.pokego.exception.PokemonNotFoundException;
 import fr.foreach.pokego.respository.PokemonJpaRepository;
 import fr.foreach.pokego.service.PokemonService;
@@ -29,6 +30,13 @@ public class PokemonServiceImpl implements PokemonService {
     @Override
     public PokemonDto getPokemonById(Integer id) {
         return new PokemonDto(pokemonJpaRepository.findById(id).orElseThrow(PokemonNotFoundException::new));
+    }
+
+    @Override
+    public List<PokemonInTeamDto> getPokemonByDresseurId(Integer dresseurId) {
+        return StreamSupport.stream(pokemonJpaRepository.findAllByDresseur_Id(dresseurId).spliterator(), false)
+                .map(PokemonInTeamDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override
