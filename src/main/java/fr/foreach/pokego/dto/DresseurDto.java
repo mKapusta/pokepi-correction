@@ -1,5 +1,6 @@
 package fr.foreach.pokego.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import fr.foreach.pokego.entity.Dresseur;
 
 import java.util.List;
@@ -8,6 +9,7 @@ public class DresseurDto {
 
     private Integer id;
     private String nom;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<PokemonInTeamDto> equipe;
 
     public DresseurDto() {

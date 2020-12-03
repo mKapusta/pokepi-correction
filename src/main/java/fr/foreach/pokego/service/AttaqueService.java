@@ -13,5 +13,7 @@ public interface AttaqueService {
 
     AttaqueDto editAttaque(AttaqueDto attaqueDto);
 
+    List<AttaqueDto> getAllAttaquesByPokemonId(Integer pokemonId);
+
     void deleteAttaque(Integer id);
 }
