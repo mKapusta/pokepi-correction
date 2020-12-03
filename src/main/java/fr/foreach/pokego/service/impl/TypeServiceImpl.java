@@ -1,6 +1,7 @@
 package fr.foreach.pokego.service.impl;
 
 import fr.foreach.pokego.dto.TypeDto;
+import fr.foreach.pokego.exception.ElementAlreadyExistsException;
 import fr.foreach.pokego.exception.TypeNotFoundException;
 import fr.foreach.pokego.respository.TypeJpaRepository;
 import fr.foreach.pokego.service.TypeService;
@@ -33,7 +34,10 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public TypeDto createType(TypeDto typeDto) {
-        return new TypeDto(typeJpaRepository.save(typeDto.toType()));
+        if(typeJpaRepository.findByNom(typeDto.getNom()).isEmpty()) {
+            return new TypeDto(typeJpaRepository.save(typeDto.toType()));
+        }
+        throw new ElementAlreadyExistsException();
     }
 
     @Override

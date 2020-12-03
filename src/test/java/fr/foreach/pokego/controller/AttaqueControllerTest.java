@@ -25,9 +25,17 @@ class AttaqueControllerTest {
     @Test
     void getAllattaques_returnsListAttaqueDto() {
         AttaqueDto attaqueDto = new AttaqueDto();
-        when(attaqueService.getAllAttaques()).thenReturn(List.of(attaqueDto));
-        assertThat(attaqueController.getAllAttaques()).isEqualTo(List.of(attaqueDto));
-        verify(attaqueService).getAllAttaques();
+        when(attaqueService.getAllAttaques(null)).thenReturn(List.of(attaqueDto));
+        assertThat(attaqueController.getAllAttaques(null)).isEqualTo(List.of(attaqueDto));
+        verify(attaqueService).getAllAttaques(null);
+    }
+
+    @Test
+    void updateAttaquePuissance_returnsAttaqueDto() {
+        AttaqueDto attaqueDto = new AttaqueDto();
+        when(attaqueService.updateAttaquePuissance(1, attaqueDto)).thenReturn(attaqueDto);
+        assertThat(attaqueController.updateAttaquePuissance(1,attaqueDto)).isEqualTo(attaqueDto);
+        verify(attaqueService).updateAttaquePuissance(1, attaqueDto);
     }
 
     @Test

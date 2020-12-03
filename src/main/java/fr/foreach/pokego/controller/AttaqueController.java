@@ -37,6 +37,11 @@ public class AttaqueController {
         return attaqueService.editAttaque(attaqueDto);
     }
 
+    @PatchMapping("/{id}")
+    public AttaqueDto updateAttaquePuissance(@PathVariable Integer id, @RequestBody AttaqueDto attaqueDto) {
+        return attaqueService.updateAttaquePuissance(id, attaqueDto);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteAttaque(@PathVariable Integer id) {
         attaqueService.deleteAttaque(id);

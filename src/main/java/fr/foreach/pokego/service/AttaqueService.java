@@ -15,5 +15,7 @@ public interface AttaqueService {
 
     List<AttaqueDto> getAllAttaquesByPokemonId(Integer pokemonId);
 
+    AttaqueDto updateAttaquePuissance(Integer id, AttaqueDto attaque);
+
     void deleteAttaque(Integer id);
 }

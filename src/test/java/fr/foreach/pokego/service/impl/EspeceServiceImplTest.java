@@ -4,6 +4,7 @@ import fr.foreach.pokego.dto.EspeceDto;
 import fr.foreach.pokego.dto.EspeceSearchCriteria;
 import fr.foreach.pokego.dto.TypeDto;
 import fr.foreach.pokego.entity.Espece;
+import fr.foreach.pokego.exception.ElementAlreadyExistsException;
 import fr.foreach.pokego.exception.EspeceNotFoundException;
 import fr.foreach.pokego.exception.WrongEspeceException;
 import fr.foreach.pokego.respository.EspeceJpaRepository;
@@ -74,6 +75,21 @@ class EspeceServiceImplTest {
     }
 
     @Test
+    void getAllEspeces_returnsListEspeceDto_WhenSearchByTypeSecondaire() {
+        Espece espece = new Espece();
+        espece.setId(1);
+        EspeceSearchCriteria especeSearchCriteria = new EspeceSearchCriteria();
+        especeSearchCriteria.setTypeSecondaireId(1);
+        when(especeJpaRepository.findByTypeSecondaire_Id(1)).thenReturn(List.of(espece));
+        List<EspeceDto> especeDtos = especeServiceImpl.getAllEspeces(especeSearchCriteria);
+        assertThat(especeDtos).hasSize(1);
+        assertThat(especeDtos.get(0).getId()).isEqualTo(1);
+
+        verify(especeJpaRepository).findByTypeSecondaire_Id(1);
+    }
+
+
+    @Test
     void getEspeceById_returnsEspeceDtoWithSprite() {
         Espece espece = new Espece();
         espece.setId(1);
@@ -99,10 +115,22 @@ class EspeceServiceImplTest {
         Espece espece = new Espece();
         espece.setId(1);
         when(especeJpaRepository.save(any(Espece.class))).thenReturn(espece);
+        when(especeJpaRepository.countByNom(anyString())).thenReturn(0);
         when(especeJpaRepository.findById(1)).thenReturn(Optional.of(espece));
         assertThat(especeServiceImpl.createEspece(createEspeceDtoWithGoodTypes()).getId()).isEqualTo(1);
         verify(especeJpaRepository).save(any(Espece.class));
     }
+
+    @Test
+    void createEspece_ThrowsElementAlreadyExistsException_whenEspeceExists() {
+        Espece espece = new Espece();
+        espece.setId(1);
+        when(especeJpaRepository.countByNom(anyString())).thenReturn(1);
+        assertThrows(ElementAlreadyExistsException.class, () -> especeServiceImpl.createEspece(createEspeceDtoWithGoodTypes()));
+        verify(especeJpaRepository).countByNom("PIKACHU");
+        verifyNoMoreInteractions(especeJpaRepository);
+    }
+
 
     @Test
     void createEspece_throwWrongEspeceException_WhenNoTypePrincipal() {
@@ -143,6 +171,7 @@ class EspeceServiceImplTest {
         TypeDto typeSecondaire = new TypeDto();
         typeSecondaire.setId(2);
         EspeceDto especeDto = new EspeceDto();
+        especeDto.setNom("PIKACHU");
         especeDto.setTypePrincipal(typePrincipal);
         especeDto.setTypeSecondaire(typeSecondaire);
         return especeDto;

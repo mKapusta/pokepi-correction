@@ -33,7 +33,7 @@ class DresseurServiceImplTest {
         Attaque attaque = new Attaque();
         attaque.setId(1);
         when(attaqueJpaRepository.findAll()).thenReturn(List.of(attaque));
-        List<AttaqueDto> attaques = attaqueServiceImpl.getAllAttaques();
+        List<AttaqueDto> attaques = attaqueServiceImpl.getAllAttaques(null);
         assertThat(attaques).hasSize(1);
         assertThat(attaques.get(0).getId()).isEqualTo(1);
 

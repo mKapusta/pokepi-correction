@@ -10,4 +10,8 @@ public interface EspeceJpaRepository extends CrudRepository<Espece, Integer> {
     List<Espece> findByNom(String nom);
 
     List<Espece> findByTypePrincipal_Id(Integer typeId);
+
+    List<Espece> findByTypeSecondaire_Id(Integer typeId);
+
+    Integer countByNom(String nom);
 }

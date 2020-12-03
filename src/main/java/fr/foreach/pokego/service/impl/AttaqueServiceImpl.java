@@ -2,11 +2,13 @@ package fr.foreach.pokego.service.impl;
 
 import fr.foreach.pokego.dto.AttaqueDto;
 import fr.foreach.pokego.exception.AttaqueNotFoundException;
+import fr.foreach.pokego.exception.ElementAlreadyExistsException;
 import fr.foreach.pokego.respository.AttaqueJdbcRepository;
 import fr.foreach.pokego.respository.AttaqueJpaRepository;
 import fr.foreach.pokego.service.AttaqueService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -24,13 +26,12 @@ public class AttaqueServiceImpl implements AttaqueService {
 
     @Override
     public List<AttaqueDto> getAllAttaques(String type) {
+        if (type != null) {
+            return attaqueJpaRepository.findByType_Nom(type).stream()
+                    .map(AttaqueDto::new)
+                    .collect(Collectors.toList());
+        }
         return StreamSupport.stream(attaqueJpaRepository.findAll().spliterator(), false)
-                .filter(attaque -> {
-                    if (type != null) {
-                        return attaque.getType().getNom().equals(type);
-                    }
-                    return true;
-                })
                 .map(AttaqueDto::new)
                 .collect(Collectors.toList());
     }
@@ -42,7 +43,10 @@ public class AttaqueServiceImpl implements AttaqueService {
 
     @Override
     public AttaqueDto createAttaque(AttaqueDto attaqueDto) {
-        return new AttaqueDto(attaqueJpaRepository.save(attaqueDto.toAttaque()));
+        if (attaqueJpaRepository.countByNom(attaqueDto.getNom()) == 0) {
+            return new AttaqueDto(attaqueJpaRepository.save(attaqueDto.toAttaque()));
+        }
+        throw new ElementAlreadyExistsException();
     }
 
     @Override
@@ -52,9 +56,17 @@ public class AttaqueServiceImpl implements AttaqueService {
 
     @Override
     public List<AttaqueDto> getAllAttaquesByPokemonId(Integer pokemonId) {
-        return StreamSupport.stream(attaqueJdbcRepository.getAllAttaquesByPokemonId(pokemonId).spliterator(), false)
+        return attaqueJdbcRepository.getAllAttaquesByPokemonId(pokemonId).stream()
                 .map(AttaqueDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public AttaqueDto updateAttaquePuissance(Integer id, AttaqueDto attaque) {
+        attaque.setId(id);
+        attaqueJpaRepository.updateAttaquePuissance(attaque.getPuissance(), id);
+        return attaque;
     }
 
     @Override

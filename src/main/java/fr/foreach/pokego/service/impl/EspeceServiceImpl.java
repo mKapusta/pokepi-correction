@@ -3,6 +3,7 @@ package fr.foreach.pokego.service.impl;
 import fr.foreach.pokego.dto.EspeceDto;
 import fr.foreach.pokego.dto.EspeceSearchCriteria;
 import fr.foreach.pokego.entity.Espece;
+import fr.foreach.pokego.exception.ElementAlreadyExistsException;
 import fr.foreach.pokego.exception.EspeceNotFoundException;
 import fr.foreach.pokego.exception.WrongEspeceException;
 import fr.foreach.pokego.respository.EspeceJdbcRepository;
@@ -40,6 +41,11 @@ public class EspeceServiceImpl implements EspeceService {
                     .map(EspeceDto::new)
                     .collect(Collectors.toList());
         }
+        if (searchEspeceCriteria.getTypeSecondaireId() != null) {
+            return especeJpaRepository.findByTypeSecondaire_Id(searchEspeceCriteria.getTypeSecondaireId()).stream()
+                    .map(EspeceDto::new)
+                    .collect(Collectors.toList());
+        }
         return StreamSupport.stream(especeJpaRepository.findAll().spliterator(), false)
                 .map(EspeceDto::new)
                 .collect(Collectors.toList());
@@ -66,8 +72,13 @@ public class EspeceServiceImpl implements EspeceService {
         if (typePrincipalAndTypeSecondaireEqual(especeDto)) {
             throw new WrongEspeceException();
         }
-        Espece espece = especeJpaRepository.save(especeDto.toEspece());
-        return new EspeceDto(especeJpaRepository.findById(espece.getId()).get());
+        if (especeJpaRepository.countByNom(especeDto.getNom()) == 0) {
+            Espece espece = especeJpaRepository.save(especeDto.toEspece());
+            return new EspeceDto(especeJpaRepository.findById(espece.getId()).get());
+        }
+        throw new ElementAlreadyExistsException();
+
+
     }
 
     private boolean typePrincipalAndTypeSecondaireEqual(EspeceDto especeDto) {
